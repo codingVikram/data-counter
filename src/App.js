@@ -4,37 +4,42 @@ export default function App() {
   const [count, setCount] = useState(0);
   const [step, setStep] = useState(1);
 
+  const [range, setRange] = useState(1);
+
+  const date = new Date();
+  date.setDate(date.getDate() + count);
+
+  function handleChange(e) {
+    setStep(Number(e.target.value));
+  }
+
   function handleReset() {
     setCount(0);
     setStep(1);
   }
 
-  const date = new Date();
-  date.setDate(date.getDate() + count);
-
   return (
     <div className="App">
-      <div>
-        <input
-          type="range"
-          min="0"
-          max="10"
-          value={step}
-          onChange={(e) => setStep(Number(e.target.value))}
-        />
-        <span>{Number(step)}</span>
-      </div>
-      <div>
-        <button onClick={() => setCount(count - Number(step))}> - </button>
-        <input
-          type="text"
-          value={count}
-          onChange={(e) => setCount(Number(e.target.value))}
-        ></input>
-        <button onClick={() => setCount(count + Number(step))}> + </button>
-      </div>
-
-      <div>
+      <header className="App-header">
+        <div>
+          <input
+            type="range"
+            min="0"
+            max="10"
+            value={step}
+            onChange={handleChange}
+          ></input>
+          <span>{step}</span>
+        </div>
+        <div>
+          <button onClick={() => setCount(count - step)}> - </button>
+          <input
+            type="text"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          ></input>
+          <button onClick={() => setCount(count + step)}> + </button>
+        </div>
         <p>
           <span>
             {count === 0
@@ -45,12 +50,13 @@ export default function App() {
           </span>
           <span>{date.toDateString()}</span>
         </p>
+
         {count !== 0 || step !== 1 ? (
           <div>
             <button onClick={handleReset}>Reset</button>
           </div>
         ) : null}
-      </div>
+      </header>
     </div>
   );
 }
